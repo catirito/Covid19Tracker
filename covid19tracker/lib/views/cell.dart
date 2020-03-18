@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class VideoCell extends StatelessWidget {
-  final video;
+class Cell extends StatelessWidget {
+  final data;
 
-  VideoCell(this.video);
+  Cell(this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +14,21 @@ class VideoCell extends StatelessWidget {
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Image.network(video["imageUrl"]),
+              new Text(data["country"],
+              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
               new Container(
                 height: 8.0,
               ),
               new Text(
-                video["name"],
+                "Total cases: " + data["cases"].toString(),
                 style:
-                    new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    new TextStyle(fontSize: 16.0),
+              ),
+              new Text(
+                "Today cases: " + data["todayCases"].toString(),
+                style:
+                    new TextStyle(fontSize: 16.0),
               ),
             ],
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import './views/video_cell.dart';
+import './views/cell.dart';
 
 void main() => runApp(new Covid19TrackerApp());
 
@@ -15,19 +15,18 @@ class Covid19TrackerApp extends StatefulWidget {
 class Covid19State extends State<Covid19TrackerApp> {
   var _isLoading = true;
 
-  var videos;
+  var data;
 
   _fetchData() async {
     print("Attempting to fetch data from network");
 
-    final url = "https://api.letsbuildthatapp.com/youtube/home_feed";
+    final url = "https://corona.lmao.ninja/countries";
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       // print(response.body);
 
       final map = json.decode(response.body);
-      final videosJson = map["videos"];
 
       // videosJson.forEach((video) {
       //   print(video["name"]);
@@ -35,7 +34,7 @@ class Covid19State extends State<Covid19TrackerApp> {
 
       setState(() {
         _isLoading = false;
-        this.videos = videosJson;
+        this.data = map;
       });
     }
   }
@@ -71,12 +70,12 @@ class Covid19State extends State<Covid19TrackerApp> {
           child: _isLoading
               ? new CircularProgressIndicator()
               : new ListView.builder(
-                  itemCount: this.videos != null ? this.videos.length : 0,
+                  itemCount: this.data != null ? this.data.length : 0,
                   itemBuilder: (context, i) {
-                    final video = this.videos[i];
+                    final countryData = this.data[i];
                     return new FlatButton(
                       padding: new EdgeInsets.all(0.0),
-                      child: new VideoCell(video),
+                      child: new Cell(countryData),
                       onPressed: () {
                         print("Video cell tapped: $i");
                         Navigator.push(
