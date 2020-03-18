@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import './views/cell.dart';
+import './views/detailPage.dart';
 
 void main() => runApp(new Covid19TrackerApp());
 
@@ -28,10 +29,6 @@ class Covid19State extends State<Covid19TrackerApp> {
 
       final map = json.decode(response.body);
 
-      // videosJson.forEach((video) {
-      //   print(video["name"]);
-      // });
-
       setState(() {
         _isLoading = false;
         this.data = map;
@@ -39,17 +36,21 @@ class Covid19State extends State<Covid19TrackerApp> {
     }
   }
 
-  // @override
-  //   void initState() {
-  //     // TODO: implement initState
-  //     super.initState();
-  //     _fetchData();
-  //   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
     // return new MaterialApp();
     return new MaterialApp(
+      theme: ThemeData(
+        // Add the 3 lines from here...
+        primaryColor: Colors.deepOrange,
+      ),
       home: new Scaffold(
         appBar: new AppBar(
           title: new Text("Covid 19 Tracker"),
@@ -81,26 +82,13 @@ class Covid19State extends State<Covid19TrackerApp> {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new DetailPage()));
+                                builder: (context) =>
+                                    new DetailPage(countryData)));
                       },
                     );
                   },
                 ),
         ),
-      ),
-    );
-  }
-}
-
-class DetailPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Detail page"),
-      ),
-      body: new Center(
-        child: new Text("Detail detail detail"),
       ),
     );
   }

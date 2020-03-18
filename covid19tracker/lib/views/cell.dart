@@ -23,12 +23,12 @@ class Cell extends StatelessWidget {
               new Text(
                 "Total cases: " + data["cases"].toString(),
                 style:
-                    new TextStyle(fontSize: 16.0),
+                    new TextStyle(fontSize: 12.0),
               ),
               new Text(
                 "Today cases: " + data["todayCases"].toString(),
                 style:
-                    new TextStyle(fontSize: 16.0),
+                    new TextStyle(fontSize: 12.0),
               ),
             ],
           ),
