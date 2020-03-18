@@ -1,121 +1,107 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-import 'dart:math';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import './views/video_cell.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(new Covid19TrackerApp());
 
-class MyApp extends StatelessWidget {
+class Covid19TrackerApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Startup Name Generator',  
-      theme: ThemeData(          // Add the 3 lines from here... 
-        primaryColor: Colors.blueGrey,
-      ),          
-      home: RandomWords(),
-    );
+  State<StatefulWidget> createState() {
+    return new Covid19State();
   }
 }
 
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => new RandomWordsState();
-}
+class Covid19State extends State<Covid19TrackerApp> {
+  var _isLoading = true;
 
-class RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = Set<WordPair>();
-  final _biggerFont = const TextStyle(fontSize: 14.0);
+  var videos;
 
-  @override
-  Widget _buildSuggestions() {
-  return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: /*1*/ (context, i) {
-        if (i.isOdd) return Divider(); /*2*/
+  _fetchData() async {
+    print("Attempting to fetch data from network");
 
-        final index = i ~/ 2; /*3*/
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-        }
-        return _buildRow(_suggestions[index], _randomNumber());
+    final url = "https://api.letsbuildthatapp.com/youtube/home_feed";
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      // print(response.body);
+
+      final map = json.decode(response.body);
+      final videosJson = map["videos"];
+
+      // videosJson.forEach((video) {
+      //   print(video["name"]);
+      // });
+
+      setState(() {
+        _isLoading = false;
+        this.videos = videosJson;
       });
+    }
   }
 
-  int _randomNumber() {
-    var rng = new Random();
-    return rng.nextInt(1000000);
-  }
-
-  Widget _buildRow(WordPair pair, int total) {
-    final bool alreadySaved = _saved.contains(pair); 
-    return ListTile(
-      title: Text(
-        total.toString(),
-        style: _biggerFont,
-      ),
-      leading: Text(
-        pair.asPascalCase,
-        
-      ),
-      dense: false,
-      trailing: Icon(   // Add the lines from here... 
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
-      ), 
-      onTap: () {      // Add 9 lines from here...
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else { 
-            _saved.add(pair); 
-          } 
-        });
-    },   
-    );
-  }
+  // @override
+  //   void initState() {
+  //     // TODO: implement initState
+  //     super.initState();
+  //     _fetchData();
+  //   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(
-      title: Text('Startup Name Generator'),
-      actions: <Widget>[      // Add 3 lines from here...
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
-        ],  
-    ),
-    body: _buildSuggestions(),
-  );
-  }
-
-  void _pushSaved() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(   // Add 20 lines from here...
-        builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _saved.map(
-            (WordPair pair) {
-              return ListTile(
-                title: Text(
-                  pair.asPascalCase,
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-          final List<Widget> divided = ListTile
-            .divideTiles(
-              context: context,
-              tiles: tiles,
+    // return new MaterialApp();
+    return new MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text("Covid 19 Tracker"),
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.refresh),
+              onPressed: () {
+                print("Reloading...");
+                setState(() {
+                  _isLoading = true;
+                });
+                _fetchData();
+              },
             )
-            .toList();
+          ],
+        ),
+        body: new Center(
+          child: _isLoading
+              ? new CircularProgressIndicator()
+              : new ListView.builder(
+                  itemCount: this.videos != null ? this.videos.length : 0,
+                  itemBuilder: (context, i) {
+                    final video = this.videos[i];
+                    return new FlatButton(
+                      padding: new EdgeInsets.all(0.0),
+                      child: new VideoCell(video),
+                      onPressed: () {
+                        print("Video cell tapped: $i");
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new DetailPage()));
+                      },
+                    );
+                  },
+                ),
+        ),
+      ),
+    );
+  }
+}
 
-            return Scaffold(         // Add 6 lines from here...
-              appBar: AppBar(
-                title: Text('Saved Suggestions'),
-              ),
-              body: ListView(children: divided),
-            ); 
-        },
+class DetailPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Detail page"),
+      ),
+      body: new Center(
+        child: new Text("Detail detail detail"),
       ),
     );
   }
