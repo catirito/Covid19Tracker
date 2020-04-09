@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MostAffectedPanel extends StatelessWidget {
   final List countryData;
@@ -7,6 +8,8 @@ class MostAffectedPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final formatter = new NumberFormat("#,###");
+
     return Container(
       child: ListView.builder(
         shrinkWrap: true,
@@ -18,28 +21,32 @@ class MostAffectedPanel extends StatelessWidget {
               children: <Widget>[
                 Image.network(
                   countryData[index]['countryInfo']['flag'],
-                  height: 25,
+                  height: 30,
+                  width: 50,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 12,
                 ),
                 Text(
                   countryData[index]['country'],
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 12,
                 ),
                 Text(
-                  'Active:' + countryData[index]['active'].toString(),
-                  style:
-                      TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
+                  'Active:' + formatter.format(countryData[index]['active']),
+                  style: TextStyle(
+                      color: Colors.blue[900], fontWeight: FontWeight.bold),
                 )
               ],
             ),
           );
         },
-        itemCount: 15,
+        itemCount: 10,
       ),
     );
   }
