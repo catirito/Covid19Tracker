@@ -8,7 +8,7 @@ class MostAffectedPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final formatter = new NumberFormat("#,###");
+    final formatter = new NumberFormat("#,###");
 
     return Container(
       child: ListView.builder(
@@ -40,7 +40,11 @@ class MostAffectedPanel extends StatelessWidget {
                 Text(
                   'Active:' + formatter.format(countryData[index]['active']),
                   style: TextStyle(
-                      color: Colors.blue[900], fontWeight: FontWeight.bold),
+                    color: Colors.blue[900],
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.right,
+                  
                 )
               ],
             ),

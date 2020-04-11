@@ -1,7 +1,9 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import './panels/mostAffectedCountries.dart';
 import './panels/worldPanel.dart';
+import './panels/chartPanel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +23,34 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Map<String, double> historicalData;
+
+  fetchHistoricalData() async {
+    historicalData = Map<String, double>();
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v2/historical?lastdays=all');
+    setState(() {
+      var dates =
+          json.decode(response.body).map((h) => {h['timeline']['cases']});
+      print(dates.runtimeType);
+
+      dates.forEach((d) => {
+            d.forEach((f) => {
+                  f.forEach((a, b) => {
+                        if (historicalData[a] == null)
+                          {
+                            historicalData[a] = b.toDouble(),
+                          }
+                        else
+                          {
+                            historicalData[a] = historicalData[a] + b.toDouble(),
+                          }
+                      }),
+                })
+          });
+    });
+  }
+
   List countryData;
   fetchCountryData() async {
     http.Response response =
@@ -35,6 +65,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     fetchWorldWideData();
     fetchCountryData();
+    fetchHistoricalData();
     super.initState();
   }
 
@@ -85,6 +116,9 @@ class _HomePageState extends State<HomePage> {
           worldData == null
               ? CircularProgressIndicator()
               : WorldPanel(worldData: worldData),
+          historicalData == null
+              ? CircularProgressIndicator()
+              : ChartPanel(historicalData: historicalData),
           Text(
             'Most affected countries',
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),

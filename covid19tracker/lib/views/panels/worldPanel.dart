@@ -5,7 +5,7 @@ import './statusPanel.dart';
 
 class WorldPanel extends StatelessWidget {
   final Map worldData;
-  const WorldPanel({Key key, this.worldData}) : super(key: key);
+  WorldPanel({Key key, this.worldData}) : super(key: key);
   
 
   @override
