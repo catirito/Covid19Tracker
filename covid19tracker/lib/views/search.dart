@@ -28,16 +28,20 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return searchCountries();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    return searchCountries();
+  }
+
+  ListView searchCountries() {
     final suggestionList = query.isEmpty
         ? countryList
         : countryList.where((country) =>
             country['country'].toString().toLowerCase().startsWith(query)).toList();
-
+    
     return ListView.builder(
       itemCount: suggestionList.length,
       itemBuilder: (context, index) {
