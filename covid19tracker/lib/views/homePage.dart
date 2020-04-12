@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import './panels/mostAffectedCountries.dart';
@@ -23,30 +22,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Map<String, double> historicalData;
+  List<double> historicalData;
 
   fetchHistoricalData() async {
-    historicalData = Map<String, double>();
-    http.Response response =
-        await http.get('https://corona.lmao.ninja/v2/historical?lastdays=all');
+    http.Response response = await http
+        .get('https://corona.lmao.ninja/v2/historical/all?lastdays=all');
     setState(() {
-      var dates =
-          json.decode(response.body).map((h) => {h['timeline']['cases']});
-      print(dates.runtimeType);
+      var data = json.decode(response.body);
 
-      dates.forEach((d) => {
-            d.forEach((f) => {
-                  f.forEach((a, b) => {
-                        if (historicalData[a] == null)
-                          {
-                            historicalData[a] = b.toDouble(),
-                          }
-                        else
-                          {
-                            historicalData[a] = historicalData[a] + b.toDouble(),
-                          }
-                      }),
-                })
+      var cases = data['cases'].map((a, b) => MapEntry(a, b));
+      var deaths = data['deaths'].map((a, b) => MapEntry(a, b));
+      var recovered = data['recovered'].map((a, b) => MapEntry(a, b));
+
+      historicalData = [];
+      cases.forEach((k, v) => {
+            historicalData
+                .add((cases[k] - deaths[k] - recovered[k]).toDouble()),
           });
     });
   }
@@ -54,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   List countryData;
   fetchCountryData() async {
     http.Response response =
-        await http.get('https://corona.lmao.ninja/countries');
+        await http.get('https://corona.lmao.ninja/countries?sort=active');
     setState(() {
       countryData = json.decode(response.body);
       countryData.sort((a, b) => b['active'].compareTo(a['active']));

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class ChartPanel extends StatelessWidget {
 
-  final Map<String, double> historicalData;
+  final List<double> historicalData;
 
   ChartPanel({this.historicalData});
 
   @override
   Widget build(BuildContext context) {
-    var data = historicalData.values.toList();
+    var data = historicalData;
 
     return Container(
       width: 300.0,
