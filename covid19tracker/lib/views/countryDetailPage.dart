@@ -23,6 +23,9 @@ class _CountryDetailState extends State<CountryDetail> {
   
   List<double> historicalData;
   fetchHistoricalData() async {
+
+print('country id: $countryId');
+
     http.Response response = await http
         .get('https://corona.lmao.ninja/v2/historical/$countryId?lastdays=all');
     setState(() {
@@ -41,7 +44,7 @@ class _CountryDetailState extends State<CountryDetail> {
 
   Map countryData;
   fetchWorldWideData() async {
-    http.Response response = await http.get('https://corona.lmao.ninja/all');
+    http.Response response = await http.get('https://corona.lmao.ninja/v2/countries/$countryId');
     setState(() {
       countryData = json.decode(response.body);
     });
@@ -65,20 +68,6 @@ class _CountryDetailState extends State<CountryDetail> {
           countryData == null
               ? CircularProgressIndicator()
               : WorldPanel(worldData: countryData),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  countryName,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                
-              ],
-            ),
-          ),
-          
           historicalData == null
             ? CircularProgressIndicator()
             : ChartPanel(historicalData: historicalData),

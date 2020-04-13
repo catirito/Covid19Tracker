@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './views/homePage.dart';
 
-void main() => runApp(Covid19TrackerApp());
+void main() {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  runApp(Covid19TrackerApp());
+}
 
 class Covid19TrackerApp extends StatelessWidget {
   @override
@@ -15,7 +22,9 @@ class Covid19TrackerApp extends StatelessWidget {
             title: TextStyle(
               color: Color(0xff084447),
             ),
-            body1: TextStyle(color: Color(0xff084447),),
+            body1: TextStyle(
+              color: Color(0xff084447),
+            ),
           )
           //textColor: Color(0xffC42021),
           ),

@@ -34,7 +34,7 @@ class CountryCard extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Container(
-                width: 100,
+                width: 150,
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
                   width: 200,
