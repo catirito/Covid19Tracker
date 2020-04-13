@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './panels/chartPanel.dart';
+import './panels/worldPanel.dart';
 
 class CountryDetail extends StatefulWidget {
   final int countryId;
@@ -38,8 +39,17 @@ class _CountryDetailState extends State<CountryDetail> {
     });
   }
 
+  Map countryData;
+  fetchWorldWideData() async {
+    http.Response response = await http.get('https://corona.lmao.ninja/all');
+    setState(() {
+      countryData = json.decode(response.body);
+    });
+  }
+
   @override
   void initState() {
+    fetchWorldWideData();
     fetchHistoricalData();
     super.initState();
   }
@@ -48,10 +58,13 @@ class _CountryDetailState extends State<CountryDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Country Stats'),
+        title: Text('$countryName Stats'),
       ),
       body: Column(
         children: <Widget>[
+          countryData == null
+              ? CircularProgressIndicator()
+              : WorldPanel(worldData: countryData),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
             child: Row(
