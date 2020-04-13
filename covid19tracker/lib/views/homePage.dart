@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<double> historicalData;
-
   fetchHistoricalData() async {
     http.Response response = await http
         .get('https://corona.lmao.ninja/v2/historical/all?lastdays=all');
@@ -48,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         await http.get('https://corona.lmao.ninja/countries?sort=active');
     setState(() {
       countryData = json.decode(response.body);
-      countryData.sort((a, b) => b['active'].compareTo(a['active']));
+      //countryData.sort((a, b) => b['active'].compareTo(a['active']));
     });
   }
 
