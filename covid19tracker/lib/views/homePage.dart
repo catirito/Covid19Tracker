@@ -64,7 +64,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Covid-19 Tracker"),
+        title: Text(
+          "Covid-19 Tracker",
+          style: Theme.of(context).textTheme.title,
+        ),
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -89,11 +92,11 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.body1.color,
                         borderRadius: BorderRadius.circular(10)),
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      'Regional',
+                      'Countries',
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,

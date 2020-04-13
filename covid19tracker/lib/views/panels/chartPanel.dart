@@ -12,13 +12,14 @@ class ChartPanel extends StatelessWidget {
     var data = historicalData;
 
     return Container(
-      width: 300.0,
-      height: 100.0,
+      margin: EdgeInsets.all(10),
+      //width: 800,
+      height: 150.0,
       child: new Sparkline(
         data: data,
         fillMode: FillMode.below,
-        lineColor: Colors.red,
-        fillColor: Colors.red[100],
+        lineColor: Theme.of(context).primaryColor,
+        fillColor: Theme.of(context).accentColor,
       ),
     );
   }

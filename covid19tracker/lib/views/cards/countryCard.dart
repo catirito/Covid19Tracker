@@ -14,9 +14,9 @@ class CountryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        height: 130,
+        //height: 130,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        decoration: BoxDecoration( boxShadow: [
           BoxShadow(
               color: Colors.grey[100],
               blurRadius: 10,
