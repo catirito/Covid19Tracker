@@ -34,7 +34,10 @@ class _CountryPageState extends State<CountryPage> {
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                showSearch(context: context, delegate: Search(countryData));
+                countryData == null
+                    ? null
+                    : showSearch(
+                        context: context, delegate: Search(countryData));
               }),
         ],
       ),
@@ -51,5 +54,3 @@ class _CountryPageState extends State<CountryPage> {
     );
   }
 }
-
-
