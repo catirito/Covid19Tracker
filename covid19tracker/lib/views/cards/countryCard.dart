@@ -62,25 +62,25 @@ class CountryCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'CONFIRMED:' + countryData[index]['cases'].toString(),
+                        'TOTAL CONFIRMED:' + countryData[index]['cases'].toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.red),
                       ),
                       Padding(padding: EdgeInsets.all(4)),
                       Text(
-                        'ACTIVE:' + countryData[index]['active'].toString(),
+                        'CURRENT ACTIVE:' + countryData[index]['active'].toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.blue),
                       ),
                       Padding(padding: EdgeInsets.all(4)),
                       Text(
-                        'RECOVERED:' + countryData[index]['recovered'].toString(),
+                        'TOTAL RECOVERED:' + countryData[index]['recovered'].toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.green),
                       ),
                       Padding(padding: EdgeInsets.all(4)),
                       Text(
-                        'DEATHS:' + countryData[index]['deaths'].toString(),
+                        'TOTAL DEATHS:' + countryData[index]['deaths'].toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.grey[800]),
                       ),
