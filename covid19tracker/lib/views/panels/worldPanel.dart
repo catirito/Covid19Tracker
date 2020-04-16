@@ -18,25 +18,25 @@ class WorldPanel extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2),
         children: <Widget>[
           StatusPanel(
-            title: 'CONFIRMED',
+            title: 'TOTAL CONFIRMED',
             panelColor: Colors.red[100],
             textColor: Colors.red,
             count: worldData['cases'],
           ),
           StatusPanel(
-            title: 'ACTIVE',
+            title: 'CURRENT ACTIVE',
             panelColor: Colors.blue[100],
             textColor: Colors.blue[900],
             count: worldData['active'],
           ),
           StatusPanel(
-            title: 'RECOVERED',
+            title: 'TOTAL RECOVERED',
             panelColor: Colors.green[100],
             textColor: Colors.green,
             count: worldData['recovered'],
           ),
           StatusPanel(
-            title: 'DEATHS',
+            title: 'TOTAL DEATHS',
             panelColor: Colors.grey[400],
             textColor: Colors.grey[900],
             count: worldData['deaths'],
