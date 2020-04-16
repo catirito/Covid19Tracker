@@ -9,7 +9,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 
 import 'countryPage.dart';
 
-const String testDevice = null; // 'ca-app-pub-8886005327849889~7422098093';
+const String testDevice = 'ca-app-pub-3940256099942544/2934735716'; // 'ca-app-pub-8886005327849889~7422098093';
 
 class HomePage extends StatefulWidget {
   @override
