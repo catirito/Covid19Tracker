@@ -9,7 +9,8 @@ import 'package:firebase_admob/firebase_admob.dart';
 
 import 'countryPage.dart';
 
-const String testDevice = 'ca-app-pub-3940256099942544/2934735716'; // 'ca-app-pub-8886005327849889~7422098093';
+const String testDevice =
+    'ca-app-pub-3940256099942544/2934735716'; // 'ca-app-pub-8886005327849889~7422098093';
 
 class HomePage extends StatefulWidget {
   @override
@@ -94,6 +95,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _bannerAd..show();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -153,14 +155,15 @@ class _HomePageState extends State<HomePage> {
             countryData == null
                 ? CircularProgressIndicator()
                 : MostAffectedPanel(countryData: countryData),
-            RaisedButton(
-                child: const Text('SHOW BANNER WITH OFFSET'),
-                onPressed: () {
-                  _bannerAd ??= createBannerAd();
-                  _bannerAd
-                    ..load()
-                    ..show(horizontalCenterOffset: -50, anchorOffset: 100);
-                }),
+                
+            // RaisedButton(
+            //     child: const Text('SHOW BANNER'),
+            //     onPressed: () {
+            //       _bannerAd ??= createBannerAd();
+            //       _bannerAd
+            //         ..load()
+            //         ..show();
+            //     }),
           ],
         ),
       ),
