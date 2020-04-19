@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   Map worldData;
   fetchWorldWideData() async {
-    http.Response response = await http.get('https://corona.lmao.ninja/all');
+    http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
     setState(() {
       worldData = json.decode(response.body);
     });
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   List countryData;
   fetchCountryData() async {
     http.Response response =
-        await http.get('https://corona.lmao.ninja/countries?sort=active');
+        await http.get('https://corona.lmao.ninja/v2/countries?sort=active');
     setState(() {
       countryData = json.decode(response.body);
       //countryData.sort((a, b) => b['active'].compareTo(a['active']));
