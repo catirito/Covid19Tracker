@@ -75,11 +75,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  @override
-  void initState() {
+  Future _loadData() async {
     fetchWorldWideData();
     fetchCountryData();
     fetchHistoricalData();
+  }
+
+  @override
+  void initState() {
+    _loadData();
 
     FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
     _bannerAd = createBannerAd()..load();
@@ -103,68 +107,71 @@ class _HomePageState extends State<HomePage> {
           style: Theme.of(context).textTheme.title,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'World status',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CountryPage(),
+      body: RefreshIndicator(
+        onRefresh: _loadData,
+              child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'World status',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CountryPage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).textTheme.body1.color,
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Countries',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).textTheme.body1.color,
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        'Countries',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            worldData == null
-                ? CircularProgressIndicator()
-                : WorldPanel(worldData: worldData),
-            historicalData == null
-                ? CircularProgressIndicator()
-                : ChartPanel(historicalData: historicalData),
-            Text(
-              'Most affected countries',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            countryData == null
-                ? CircularProgressIndicator()
-                : MostAffectedPanel(countryData: countryData),
-                
-            // RaisedButton(
-            //     child: const Text('SHOW BANNER'),
-            //     onPressed: () {
-            //       _bannerAd ??= createBannerAd();
-            //       _bannerAd
-            //         ..load()
-            //         ..show();
-            //     }),
-          ],
+              worldData == null
+                  ? CircularProgressIndicator()
+                  : WorldPanel(worldData: worldData),
+              historicalData == null
+                  ? CircularProgressIndicator()
+                  : ChartPanel(historicalData: historicalData),
+              Text(
+                'Most affected countries',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              countryData == null
+                  ? CircularProgressIndicator()
+                  : MostAffectedPanel(countryData: countryData),
+                  
+              // RaisedButton(
+              //     child: const Text('SHOW BANNER'),
+              //     onPressed: () {
+              //       _bannerAd ??= createBannerAd();
+              //       _bannerAd
+              //         ..load()
+              //         ..show();
+              //     }),
+            ],
+          ),
         ),
       ),
     );
