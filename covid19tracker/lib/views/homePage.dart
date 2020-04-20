@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       size: AdSize.banner,
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
-        print("BannerAd event $event");
+        //print("BannerAd event $event");
       },
     );
   }
