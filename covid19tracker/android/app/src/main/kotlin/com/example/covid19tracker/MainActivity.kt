@@ -1,4 +1,4 @@
-package com.example.covid19tracker
+package com.catirito.covid19tracker
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         await http.get('https://corona.lmao.ninja/v2/countries?sort=active');
     setState(() {
       countryData = json.decode(response.body);
-      //countryData.sort((a, b) => b['active'].compareTo(a['active']));
+      countryData.sort((a, b) => b['active'].compareTo(a['active']));
     });
   }
 
