@@ -47,7 +47,9 @@ class _HomePageState extends State<HomePage> {
   fetchWorldWideData() async {
     http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
     setState(() {
-      worldData = json.decode(response.body);
+      if(response.statusCode == 200 ) {
+        worldData = json.decode(response.body);
+      }
     });
   }
 
@@ -56,17 +58,19 @@ class _HomePageState extends State<HomePage> {
     http.Response response = await http
         .get('https://corona.lmao.ninja/v2/historical/all?lastdays=all');
     setState(() {
-      var data = json.decode(response.body);
+      if(response.statusCode == 200 ) {
+        var data = json.decode(response.body);
 
-      var cases = data['cases'].map((a, b) => MapEntry(a, b));
-      var deaths = data['deaths'].map((a, b) => MapEntry(a, b));
-      var recovered = data['recovered'].map((a, b) => MapEntry(a, b));
+        var cases = data['cases'].map((a, b) => MapEntry(a, b));
+        var deaths = data['deaths'].map((a, b) => MapEntry(a, b));
+        var recovered = data['recovered'].map((a, b) => MapEntry(a, b));
 
-      historicalData = [];
-      cases.forEach((k, v) => {
-            historicalData
-                .add((cases[k] - deaths[k] - recovered[k]).toDouble()),
-          });
+        historicalData = [];
+        cases.forEach((k, v) => {
+              historicalData
+                  .add((cases[k] - deaths[k] - recovered[k]).toDouble()),
+            });
+      }
     });
   }
 
@@ -75,8 +79,10 @@ class _HomePageState extends State<HomePage> {
     http.Response response =
         await http.get('https://corona.lmao.ninja/v2/countries?sort=active');
     setState(() {
-      countryData = json.decode(response.body);
-      countryData.sort((a, b) => b['active'].compareTo(a['active']));
+      if(response.statusCode == 200 ) {
+        countryData = json.decode(response.body);
+        countryData.sort((a, b) => b['active'].compareTo(a['active']));
+      }
     });
   }
 

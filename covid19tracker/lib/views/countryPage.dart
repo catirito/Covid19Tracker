@@ -15,7 +15,9 @@ class _CountryPageState extends State<CountryPage> {
     http.Response response =
         await http.get('https://corona.lmao.ninja/v2/countries');
     setState(() {
-      countryData = json.decode(response.body);
+      if(response.statusCode == 200 ) {
+        countryData = json.decode(response.body);
+      }
     });
   }
 
