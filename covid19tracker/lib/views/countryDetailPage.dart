@@ -29,16 +29,18 @@ print('country id: $countryId');
     http.Response response = await http
         .get('https://corona.lmao.ninja/v2/historical/$countryId?lastdays=all');
     setState(() {
-      var data = json.decode(response.body)['timeline'];
-      var cases = data['cases'].map((a, b) => MapEntry(a, b));
-      var deaths = data['deaths'].map((a, b) => MapEntry(a, b));
-      var recovered = data['recovered'].map((a, b) => MapEntry(a, b));
+      if(response.statusCode == 200 ) {
+        var data = json.decode(response.body)['timeline'];
+        var cases = data['cases'].map((a, b) => MapEntry(a, b));
+        var deaths = data['deaths'].map((a, b) => MapEntry(a, b));
+        var recovered = data['recovered'].map((a, b) => MapEntry(a, b));
 
-      historicalData = [];
-      cases.forEach((k, v) => {
-            historicalData
-                .add((cases[k] - deaths[k] - recovered[k]).toDouble()),
-          });
+        historicalData = [];
+        cases.forEach((k, v) => {
+              historicalData
+                  .add((cases[k] - deaths[k] - recovered[k]).toDouble()),
+            });
+      }
     });
   }
 
@@ -46,7 +48,9 @@ print('country id: $countryId');
   fetchWorldWideData() async {
     http.Response response = await http.get('https://corona.lmao.ninja/v2/countries/$countryId');
     setState(() {
-      countryData = json.decode(response.body);
+      if(response.statusCode == 200 ) {
+        countryData = json.decode(response.body);
+      }
     });
   }
 
