@@ -14,18 +14,18 @@ const String androidTestDevice = '0ad92dc4cc3d5262';
 
 String getAppId() {
   if (Platform.isIOS) {
-    return 'ca-app-pub-8886005327849889~7422098093';
+    return '--';
   } else {
-    return 'ca-app-pub-8886005327849889~1618466446';
+    return '--';
   }
 
 }
 
 String getBannerAdUnitId() {
   if (Platform.isIOS) {
-    return 'ca-app-pub-8886005327849889/7564093547';
+    return '--';
   } else {
-    return 'ca-app-pub-8886005327849889/5174568075';
+    return '--';
   }
 }
 
