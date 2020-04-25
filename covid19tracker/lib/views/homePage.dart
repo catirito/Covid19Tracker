@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import './panels/mostAffectedCountries.dart';
 import './panels/worldPanel.dart';
@@ -9,8 +10,24 @@ import 'package:firebase_admob/firebase_admob.dart';
 
 import 'countryPage.dart';
 
-const String testDevice =
-    'ca-app-pub-3940256099942544/2934735716'; // 'ca-app-pub-8886005327849889~7422098093';
+const String androidTestDevice = '0ad92dc4cc3d5262'; 
+
+String getAppId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-8886005327849889~7422098093';
+  } else {
+    return 'ca-app-pub-8886005327849889~1618466446';
+  }
+
+}
+
+String getBannerAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-8886005327849889/7564093547';
+  } else {
+    return 'ca-app-pub-8886005327849889/5174568075';
+  }
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,8 +36,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: testDevice != null ? <String>[testDevice] : null,
-    keywords: <String>['health', 'covid', 'people'],
+    testDevices: <String>[androidTestDevice],
+    keywords: <String>['health', 'covid', 'people', 'medic', 'doctor', 'healthy'],
     //contentUrl: 'http://foo.com/bar.html',
     childDirected: true,
     nonPersonalizedAds: true,
@@ -65,12 +82,13 @@ class _HomePageState extends State<HomePage> {
 
   BannerAd _bannerAd;
   BannerAd createBannerAd() {
+    
     return BannerAd(
-      adUnitId: BannerAd.testAdUnitId,
+      adUnitId: getBannerAdUnitId(),
       size: AdSize.banner,
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
-        //print("BannerAd event $event");
+        print("BannerAd event $event");
       },
     );
   }
@@ -83,10 +101,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _loadData();
-
-    FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+    FirebaseAdMob.instance.initialize(appId: getAppId());
     _bannerAd = createBannerAd()..load();
+
+    _loadData();
 
     super.initState();
   }
